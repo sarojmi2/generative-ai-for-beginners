@@ -9,31 +9,29 @@ import base64
 # Load environment variables from .env file
 load_dotenv()
 
-# SECURITY: Validate API key is present
-api_key = os.getenv('OPENAI_API_KEY')
-if not api_key:
-    raise ValueError("OPENAI_API_KEY environment variable is required. Please set it in your .env file.")
-
-client = OpenAI(api_key=api_key)
+client = OpenAI(
+    api_key=os.environ["API_KEY"],
+    base_url=f"{os.environ['OPENAI_API_BASE']}",
+)
 
 
 try:
     # Create an image by using the image generation API
     generation_response = client.images.generate(
         model="gpt-image-1",
-        prompt='Bunny on horse, holding a lollipop, on a foggy meadow where it grows daffodils',    # Enter your prompt text here
-        size='1024x1024',
-        n=1
+        prompt="Bunny on horse, holding a lollipop, on a foggy meadow where it grows daffodils",  # Enter your prompt text here
+        size="1024x1024",
+        n=1,
     )
     # Set the directory for the stored image
-    image_dir = os.path.join(os.curdir, 'images')
+    image_dir = os.path.join(os.curdir, "images")
 
     # If the directory doesn't exist, create it
     if not os.path.isdir(image_dir):
         os.mkdir(image_dir)
 
     # Initialize the image path (note the filetype should be png)
-    image_path = os.path.join(image_dir, 'generated-image.png')
+    image_path = os.path.join(image_dir, "generated-image.png")
 
     # Retrieve the generated image
     print(generation_response)
@@ -55,8 +53,4 @@ except OpenAIError as err:
 # ---creating variation below---
 
 
-response = client.images.create_variation(
-  image=open(image_path, "rb"),
-  n=1,
-  size="1024x1024"
-)
+response = client.images.create_variation(image=open(image_path, "rb"), n=1, size="1024x1024")
