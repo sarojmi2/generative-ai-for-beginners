@@ -1,11 +1,11 @@
 import os
 from openai import OpenAI
 
+# env is set in github.  settings -> command pallet -> type ....>codespace: manage user secret
 client = OpenAI(
     api_key=os.environ["API_KEY"],
     base_url=f"{os.environ['OPENAI_API_BASE']}",
 )
-models = client.models.list()
 
 prompt = "Complete the following: Once upon a time there was a"
 

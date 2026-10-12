@@ -1,3 +1,7 @@
+##----------------------------------------------------------------------------
+## “a zero-shot, role-based prompt template with a required response format”
+##-----------------------------------------------------------------------------
+
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
